@@ -20,8 +20,8 @@ jobs:
 
       - name: Build Target
         run: |
-          xcodebuild -project IntelVMD.xcodeproj \
-                     -target IntelVMD-tahoe \
+          xcodebuild -project IntelVMD-tahoe/IntelVMD.xcodeproj \
+                     -target IntelVMD \
                      -configuration Release \
                      ONLY_ACTIVE_ARCH=NO \
                      SYMROOT="$(PWD)/build"

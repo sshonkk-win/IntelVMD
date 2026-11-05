@@ -1,4 +1,4 @@
-name: Build IntelVMD-tahoe
+name: Build IntelVMD
 
 on:
   push:
@@ -18,10 +18,15 @@ jobs:
       - name: Select Xcode Version
         run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 
-      - name: Build IntelVMD-tahoe
+      - name: List project contents and schemes
+        run: |
+          ls -la
+          xcodebuild -list -project IntelVMD.xcodeproj
+
+      - name: Build Project
         run: |
           xcodebuild -project IntelVMD.xcodeproj \
-                     -scheme IntelVMD-tahoe \
+                     -alltargets \
                      -configuration Release \
                      -derivedDataPath build \
                      ONLY_ACTIVE_ARCH=NO
@@ -29,5 +34,5 @@ jobs:
       - name: Upload Built Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: IntelVMD-tahoe-Release
+          name: IntelVMD-Release
           path: build/Build/Products/Release/

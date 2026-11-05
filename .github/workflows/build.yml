@@ -1,0 +1,33 @@
+name: Build IntelVMD-tahoe
+
+on:
+  push:
+    branches: [ "main", "tahoe" ]
+  pull_request:
+    branches: [ "main", "tahoe" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode Version
+        run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+
+      - name: Build IntelVMD-tahoe
+        run: |
+          xcodebuild -project IntelVMD.xcodeproj \
+                     -scheme IntelVMD-tahoe \
+                     -configuration Release \
+                     -derivedDataPath build \
+                     ONLY_ACTIVE_ARCH=NO
+
+      - name: Upload Built Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: IntelVMD-tahoe-Release
+          path: build/Build/Products/Release/
